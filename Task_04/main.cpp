@@ -12,20 +12,16 @@
  */
 
 #include <iostream>
+#include <limits>
 #include <string>
 
 size_t ReverseNumber(size_t number) {
-  std::string number_str = {};
+  size_t reverse_number = 0;
   while (number) {
-    number_str += std::to_string(number % 10);
+    reverse_number = reverse_number * 10 + number % 10;
     number /= 10;
   }
-
-  try {
-    return std::stoull(number_str);
-  } catch (const std::exception& e) {
-    return 0;
-  }
+  return reverse_number;
 }
 
 int main() {
