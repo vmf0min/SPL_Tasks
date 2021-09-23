@@ -28,13 +28,9 @@ auto RemoveNumbersContainsDigitInVector(std::vector<T>& v, uint16_t digit) {
   std::vector<T> v_combed;
   std::copy_if(v.begin(), v.end(), std::back_inserter(v_combed),
                [digit](auto x) {
-                 bool is_contains_digit = false;
-                 auto tmp = x;
-                 while (tmp && !is_contains_digit) {
-                   if (tmp % 10 == digit) is_contains_digit = true;
-                   tmp /= 10;
-                 }
-                 return !is_contains_digit;
+                 std::string number = std::to_string(x);
+                 auto find_digit = number.find(std::to_string(digit));
+                 return find_digit == std::string::npos;
                });
   return v_combed;
 }
