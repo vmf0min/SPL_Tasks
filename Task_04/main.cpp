@@ -12,18 +12,31 @@
  */
 
 #include <algorithm>
+#include <charconv>
 #include <iostream>
 #include <string>
 
-size_t ReverseNumber(size_t number) {
-  std::string number_str = std::to_string(number);
-  std::reverse(number_str.begin(), number_str.end());
-  return std::stoull(number_str);
+bool ReverseNumber(size_t& number) {
+  std::string num_str = std::to_string(number);
+  std::reverse(num_str.begin(), num_str.end());
+
+  size_t tmp = number;
+  auto [ptr, ec] =
+      std::from_chars(num_str.data(), num_str.data() + num_str.size(), tmp);
+  if (ec == std::errc::result_out_of_range) return false;
+
+  std::swap(number, tmp);
+  return true;
 }
 
 int main() {
   system("cls");
   size_t number;
   std::cin >> number;
-  std::cout << ReverseNumber(number) << std::endl;
+
+  if (ReverseNumber(number))
+    std::cout << number;
+  else
+    std::cerr << "result_out_of_range";
+  std::cout << std::endl;
 }
