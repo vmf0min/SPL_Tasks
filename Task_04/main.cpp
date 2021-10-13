@@ -14,19 +14,19 @@
 #include <algorithm>
 #include <charconv>
 #include <iostream>
+#include <optional>
 #include <string>
 
-bool ReverseNumber(size_t& number) {
+std::optional<size_t> ReverseNumber(size_t number) {
   std::string num_str = std::to_string(number);
   std::reverse(num_str.begin(), num_str.end());
 
-  size_t tmp = number;
   auto [ptr, ec] =
-      std::from_chars(num_str.data(), num_str.data() + num_str.size(), tmp);
-  if (ec == std::errc::result_out_of_range) return false;
-
-  std::swap(number, tmp);
-  return true;
+      std::from_chars(num_str.data(), num_str.data() + num_str.size(), number);
+  if (ec != std::errc::result_out_of_range)
+    return number;
+  else
+    return {};
 }
 
 int main() {
@@ -34,8 +34,9 @@ int main() {
   size_t number;
   std::cin >> number;
 
-  if (ReverseNumber(number))
-    std::cout << number;
+  auto reversed_num = ReverseNumber(number);
+  if (reversed_num)
+    std::cout << reversed_num.value();
   else
     std::cerr << "result_out_of_range";
   std::cout << std::endl;
