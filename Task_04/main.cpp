@@ -18,11 +18,10 @@
 #include <string>
 
 std::optional<size_t> ReverseNumber(size_t number) {
-  std::string num_str = std::to_string(number);
-  std::reverse(num_str.begin(), num_str.end());
+  std::string num = std::to_string(number);
+  std::reverse(num.begin(), num.end());
 
-  auto [ptr, ec] =
-      std::from_chars(num_str.data(), num_str.data() + num_str.size(), number);
+  auto [ptr, ec] = std::from_chars(num.data(), num.data() + num.size(), number);
   if (ec != std::errc::result_out_of_range)
     return number;
   else
