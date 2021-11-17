@@ -22,10 +22,8 @@ std::optional<size_t> ReverseNumber(size_t number) {
   std::reverse(num.begin(), num.end());
 
   auto [ptr, ec] = std::from_chars(num.data(), num.data() + num.size(), number);
-  if (ec != std::errc::result_out_of_range)
-    return number;
-  else
-    return {};
+  if (ec == std::errc::result_out_of_range) return {};
+  return number;
 }
 
 int main() {
